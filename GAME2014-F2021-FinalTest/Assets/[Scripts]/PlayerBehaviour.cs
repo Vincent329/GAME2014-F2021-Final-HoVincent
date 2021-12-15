@@ -169,7 +169,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (!isJumping && !isCrouching)
             {
-                if (joystick.Horizontal > joystickHorizontalSensitivity)
+                if (joystick.Horizontal > joystickHorizontalSensitivity || Input.GetAxisRaw("Horizontal") > 0)
                 {
                     // move right
                     m_rigidBody2D.AddForce(Vector2.right * horizontalForce * Time.deltaTime);
@@ -187,7 +187,7 @@ public class PlayerBehaviour : MonoBehaviour
 
                     m_animator.SetInteger("AnimState", (int)PlayerAnimationType.RUN);
                 }
-                else if (joystick.Horizontal < -joystickHorizontalSensitivity)
+                else if (joystick.Horizontal < -joystickHorizontalSensitivity || Input.GetAxisRaw("Horizontal") < 0)
                 {
                     // move left
                     m_rigidBody2D.AddForce(Vector2.left * horizontalForce * Time.deltaTime);
@@ -211,7 +211,7 @@ public class PlayerBehaviour : MonoBehaviour
                 }
             }
 
-            if ((joystick.Vertical > joystickVerticalSensitivity) && (!isJumping))
+            if ((joystick.Vertical > joystickVerticalSensitivity) && (!isJumping) || (Input.GetAxisRaw("Jump") > 0 && (!isJumping)))
             {
                 // jump
                 m_rigidBody2D.AddForce(Vector2.up * verticalForce);
@@ -227,7 +227,7 @@ public class PlayerBehaviour : MonoBehaviour
                 isJumping = false;
             }
 
-            if ((joystick.Vertical < -joystickVerticalSensitivity) && (!isCrouching))
+            if (((joystick.Vertical < -joystickVerticalSensitivity) && (!isCrouching)) || (Input.GetAxisRaw("Vertical") < 0 && (!isCrouching)))
             {
                 m_animator.SetInteger("AnimState", (int)PlayerAnimationType.CROUCH);
                 isCrouching = true;
@@ -282,6 +282,12 @@ public class PlayerBehaviour : MonoBehaviour
             other.gameObject.GetComponent<MovingPlatformController>().isActive = true;
             transform.SetParent(other.gameObject.transform);
         }
+
+        //if (other.gameObject.CompareTag("Shrinking Platform"))
+        //{
+        //    transform.SetParent(other.gameObject.transform);
+
+        //}
     }
 
     private void OnCollisionExit2D(Collision2D other)
@@ -291,6 +297,11 @@ public class PlayerBehaviour : MonoBehaviour
             other.gameObject.GetComponent<MovingPlatformController>().isActive = false;
             transform.SetParent(parent);
         }
+        //if (other.gameObject.CompareTag("Shrinking Platform"))
+        //{
+        //    transform.SetParent(parent);
+
+        //}
     }
 
 
