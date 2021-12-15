@@ -25,10 +25,9 @@ public class ShrinkingPlatform : MonoBehaviour
     private float oscillatingTimeElapsed;
     [SerializeField] private float shrinkTimeElapsed;
     [Range(0.1f, 10.0f)]
-    [SerializeField] private float shrinkingTime; // Must alter in the editor
+    [SerializeField] private float shrinkingTime; // Must alter in the editor, total time it takes to fully shrink the platform, as well as the max value for scaling purposes
 
-    [SerializeField]
-    private Vector3 platformPosition;
+    [SerializeField] private Vector3 platformPosition; // keeps track of the platform's original position
     
     // boolean factors
     [Header("Platform States")]
@@ -45,6 +44,7 @@ public class ShrinkingPlatform : MonoBehaviour
     [Header("Sound Effects")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private List<AudioClip> audioClips;
+
     // Start is called before the first frame update
     void Start()
     {
